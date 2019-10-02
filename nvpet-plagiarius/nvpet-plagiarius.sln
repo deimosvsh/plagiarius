@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29326.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nvpet-plagiarius", "nvpet-plagiarius\nvpet-plagiarius.csproj", "{B0B12DEB-5788-47AE-83BC-54173FE8A4AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0B12DEB-5788-47AE-83BC-54173FE8A4AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0B12DEB-5788-47AE-83BC-54173FE8A4AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0B12DEB-5788-47AE-83BC-54173FE8A4AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0B12DEB-5788-47AE-83BC-54173FE8A4AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EB6F919C-FBAB-4F54-B559-D253E5F9C4C0}
+	EndGlobalSection
+EndGlobal
