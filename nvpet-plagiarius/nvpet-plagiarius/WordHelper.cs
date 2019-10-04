@@ -117,10 +117,7 @@ namespace nvpet_plagiarius
             {
                 return part;
             }
-            /*else if(collection.Count == 1) 
-            { 
-            return StringTemp; 
-            }*/
+
             else
             {
                 StringTemp = part;
@@ -132,7 +129,6 @@ namespace nvpet_plagiarius
                         string deletePart = GroupCollection[i].ToString();
                         StringTemp = StringTemp.Replace(deletePart, "");
                     }
-
                 }
             }
             return StringTemp;
