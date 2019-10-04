@@ -35,6 +35,8 @@
         }
         //*/
         #endregion
+
+        private System.Windows.Forms.RichTextBox rtbMainOutput;
     }
 }
 

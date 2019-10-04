@@ -33,7 +33,7 @@ namespace nvpet_plagiarius
         {
         }
 
-        public static string TransformingWord(string word)
+        public string TransformingWord(string word)
         {
             word = word.ToLower();
             word = word.Replace('ё', 'е');
@@ -110,7 +110,7 @@ namespace nvpet_plagiarius
             return word;
         }
 
-        public static string ReplaceFirst(MatchCollection collection, string part)
+        public string ReplaceFirst(MatchCollection collection, string part)
         {
             string StringTemp = "";
             if (collection.Count == 0)
