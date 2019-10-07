@@ -26,7 +26,7 @@ namespace nvpet_plagiarius
             // 
             this.rtbMainOutput.Location = new System.Drawing.Point(12, 12);
             this.rtbMainOutput.Name = "rtbMainOutput";
-            this.rtbMainOutput.Size = new System.Drawing.Size(305, 344);
+            this.rtbMainOutput.Size = new System.Drawing.Size(332, 344);
             this.rtbMainOutput.TabIndex = 0;
             this.rtbMainOutput.Text = "";
             // 
@@ -45,13 +45,7 @@ namespace nvpet_plagiarius
             StringHelper sh = new StringHelper();
             PorterStemmerUkr stemmer = new PorterStemmerUkr();
 
-            string wholetitty;
-
-            wholetitty = sh.ReplaceJunk(sh.StringGet("C:\\lol.docx"));
-            //rtbMainOutput.Text = sh.ReplaceJunk(sh.StringGet("C:\\lol.docx"));
-            //rtbMainOutput.Text = sh.ReplaceJunk(rtbMainOutput.Text);
-            rtbMainOutput.Text = wholetitty.ToLower();
-            //stemmer.TransformingWord
+            rtbMainOutput.Text = sh.ReplaceJunk(sh.StringGet(@"C:\lol.docx")).ToLower();
         }
     }
 }
