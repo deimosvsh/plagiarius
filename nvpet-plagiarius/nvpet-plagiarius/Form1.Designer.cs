@@ -37,6 +37,7 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox rtbMainOutput;
+        private System.Windows.Forms.RichTextBox rtbWordsOutput;
     }
 }
 

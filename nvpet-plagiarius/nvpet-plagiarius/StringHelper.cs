@@ -44,16 +44,16 @@ namespace nvpet_plagiarius
             // Відкриття та завантаження документу
             try
             {
-                 docs = word.Documents.Open(ref path, ref miss, ref readOnly, ref miss, ref miss, ref miss, 
-                        ref miss, ref miss, ref miss, ref miss, ref miss, ref miss, ref miss, ref miss, 
-                        ref miss, ref miss);
+                docs = word.Documents.Open(ref path, ref miss, ref readOnly, ref miss, ref miss, ref miss,
+                       ref miss, ref miss, ref miss, ref miss, ref miss, ref miss, ref miss, ref miss,
+                       ref miss, ref miss);
             }
             /* TODO: Створити повідомлення про неправильне відкриття документу, 
              * його відсутність або інші помилки самого процесу відкриття
              */
             catch
             {
-                Console.WriteLine("oof");
+                //Console.WriteLine("oof");
             }
 
             // Копіювання документу в строку
@@ -82,9 +82,9 @@ namespace nvpet_plagiarius
                     { "#", "" }, { "$", "" }, { "%", "" }, { "^", "" }, { "&", "" },
                     { "*", "" }, { "+", "" }, { "|", "" }, { "_", "" }, { "»", "" },
                     { "«", "" }, { "\\", ""}, { "\"", ""}, { "-", " "}, { "–", " "},
-                    {"  ", " "}, { "\n", ""}, { "\t", ""}, { "\r", ""}, { "^m", ""}
+                    {"  ", " "}, {"\n", " "}, {"\t", " "}, {"\r", " "}, {"\f", " "}
                 };
-            
+
             /* Затирання подвійних пробілів;
              * TODO: треба оптимізувати, занадто часто повторюється, треба зробити ранній вихід
              *       при відсутності подвійних проблів
@@ -97,6 +97,37 @@ namespace nvpet_plagiarius
 
             // Формування фінального рядку
             return sSource.ToString();
+        }
+
+        public List<string> DevideBySpace(string sSource)
+        {
+            // Результуючий масив рядків, кожен заповнений одним словом
+            List<string> LsDevided = new List<string> { };
+
+            String[] sAllWords = sSource.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+            List<string> LsReplacements = new List<string> { "а", "у", "і", "й", "в", "з", "на", "до", "та", "за", "\n" };
+
+            //int index = 0;
+            foreach (string s in sAllWords)
+            {
+                 LsDevided.Add(s);
+                 //Console.WriteLine(s + " " + index);
+                 //index++;
+            }
+
+            foreach(string ritem in LsReplacements)
+            {
+                for(int i = 0; i < LsDevided.Count; i++)
+                //foreach(string sitem in LsDevided)
+                {
+                    if (/*sitem*/LsDevided[i] == ritem)
+                        LsDevided.Remove(LsDevided[i]/*sitem*/);
+                }
+            }
+                
+            // повернення масиву слів
+            return LsDevided;
         }
     }
 }

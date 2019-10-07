@@ -20,6 +20,7 @@ namespace nvpet_plagiarius
         private void InitializeComponent()
         {
             this.rtbMainOutput = new System.Windows.Forms.RichTextBox();
+            this.rtbWordsOutput = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // rtbMainOutput
@@ -30,9 +31,18 @@ namespace nvpet_plagiarius
             this.rtbMainOutput.TabIndex = 0;
             this.rtbMainOutput.Text = "";
             // 
+            // rtbWordsOutput
+            // 
+            this.rtbWordsOutput.Location = new System.Drawing.Point(350, 12);
+            this.rtbWordsOutput.Name = "rtbWordsOutput";
+            this.rtbWordsOutput.Size = new System.Drawing.Size(329, 344);
+            this.rtbWordsOutput.TabIndex = 1;
+            this.rtbWordsOutput.Text = "";
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(691, 368);
+            this.Controls.Add(this.rtbWordsOutput);
             this.Controls.Add(this.rtbMainOutput);
             this.Name = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -45,7 +55,14 @@ namespace nvpet_plagiarius
             StringHelper sh = new StringHelper();
             PorterStemmerUkr stemmer = new PorterStemmerUkr();
 
+            List<string> LsDevided = new List<string> { };
+
             rtbMainOutput.Text = sh.ReplaceJunk(sh.StringGet(@"C:\lol.docx")).ToLower();
+
+            LsDevided = sh.DevideBySpace(rtbMainOutput.Text);
+
+            foreach (var i in LsDevided)
+                rtbWordsOutput.AppendText(stemmer.TransformingWord(i)+"\n");
         }
     }
 }

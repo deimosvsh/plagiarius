@@ -25,6 +25,8 @@ namespace nvpet_plagiarius
 
         private static Regex SUPERLATIVE = new Regex("(ейше|ейш)$");
 
+        private static Regex PREF = new Regex("(пре|при|прі|роз|з)$");
+
         private static Regex I = new Regex("и$");
         private static Regex P = new Regex("ь$");
         private static Regex NN = new Regex("нн$");
@@ -59,6 +61,10 @@ namespace nvpet_plagiarius
                     {
                         rv = StringTemp;
                         tempRV = PARTICIPLE.Matches(rv);
+                        rv = ReplaceFirst(tempRV, rv);
+
+                        rv = StringTemp;
+                        tempRV = PREF.Matches(rv);
                         rv = ReplaceFirst(tempRV, rv);
                     }
                     else
