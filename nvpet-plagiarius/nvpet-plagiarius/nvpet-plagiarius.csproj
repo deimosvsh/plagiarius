@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLHelper.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="WordHelper.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -82,6 +83,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
+      <Version>3.4.0-beta1-final</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1003" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

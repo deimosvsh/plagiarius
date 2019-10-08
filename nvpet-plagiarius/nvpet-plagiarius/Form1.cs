@@ -12,6 +12,11 @@ namespace nvpet_plagiarius
 {
     public partial class Form1 : Form
     {
+        public StringHelper sh = new StringHelper();
+        public PorterStemmerUkr stemmer = new PorterStemmerUkr();
+
+        public List<string> LsDevided = new List<string> { };
+
         public Form1()
         {
             InitializeComponent();
@@ -41,7 +46,7 @@ namespace nvpet_plagiarius
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(691, 368);
+            this.ClientSize = new System.Drawing.Size(691, 397);
             this.Controls.Add(this.rtbWordsOutput);
             this.Controls.Add(this.rtbMainOutput);
             this.Name = "Form1";
@@ -52,17 +57,12 @@ namespace nvpet_plagiarius
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            StringHelper sh = new StringHelper();
-            PorterStemmerUkr stemmer = new PorterStemmerUkr();
-
-            List<string> LsDevided = new List<string> { };
-
             rtbMainOutput.Text = sh.ReplaceJunk(sh.StringGet(@"C:\lol.docx")).ToLower();
 
             LsDevided = sh.DevideBySpace(rtbMainOutput.Text);
 
             foreach (var i in LsDevided)
-                rtbWordsOutput.AppendText(stemmer.TransformingWord(i)+"\n");
+                rtbWordsOutput.AppendText(stemmer.TransformingWord(i) + "\n");
         }
     }
 }

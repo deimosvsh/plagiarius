@@ -8,9 +8,9 @@ namespace nvpet_plagiarius
         {
         }
 
-        public string GetFromMotherBase()
+        public string GetFromMotherBase(string sConnection)
         {
-            string sResult;
+            string sResult = "";
 
 
 

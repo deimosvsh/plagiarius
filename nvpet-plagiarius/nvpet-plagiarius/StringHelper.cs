@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.Office.Interop.Word;
 
 namespace nvpet_plagiarius
@@ -59,7 +60,7 @@ namespace nvpet_plagiarius
             // Копіювання документу в строку
             for (int i = 0; i < docs.Paragraphs.Count; i++)
             {
-                text.Append(/*" \r\n " + */docs.Paragraphs[i + 1].Range.Text.ToString());
+                text.Append(docs.Paragraphs[i + 1].Range.Text.ToString());
             }
 
             // Повернення результуючої строки
@@ -72,7 +73,7 @@ namespace nvpet_plagiarius
              * TODO: чи всі символи представлені?
              *       по можливості оптимізувати
              */
-            Dictionary<string, string> replacements = new Dictionary<string, string>
+            Dictionary<string, string> dReplacements = new Dictionary<string, string>
                 {
                     { "0", "" }, { "1", "" }, { "2", "" }, { "3", "" }, { "4", "" },
                     { "5", "" }, { "6", "" }, { "7", "" }, { "8", "" }, { "9", "" },
@@ -82,21 +83,37 @@ namespace nvpet_plagiarius
                     { "#", "" }, { "$", "" }, { "%", "" }, { "^", "" }, { "&", "" },
                     { "*", "" }, { "+", "" }, { "|", "" }, { "_", "" }, { "»", "" },
                     { "«", "" }, { "\\", ""}, { "\"", ""}, { "-", " "}, { "–", " "},
-                    {"  ", " "}, {"\n", " "}, {"\t", " "}, {"\r", " "}, {"\f", " "}
+                    {"  ", " "}, {"\n", " "}, {"\t", " "}, {"\r", " "}, {"\f", " "},
+
+                    { "новоград", "" },    { "волинський", "" }, {"промислово", ""},
+                    { "економічний", "" }, { "технікум", "" }    
                 };
 
             /* Затирання подвійних пробілів;
              * TODO: треба оптимізувати, занадто часто повторюється, треба зробити ранній вихід
              *       при відсутності подвійних проблів
              */
-            foreach (var item in replacements)
+            foreach (var item in dReplacements)
             {
                 sSource = sSource.Replace(item.Key, item.Value);
-                sSource = sSource.Replace("  ", " ");
+                //sSource = sSource.Replace("  ", " ");
             }//*/
 
             // Формування фінального рядку
             return sSource.ToString();
+        }
+
+        public bool isCommonWord(string sWord)
+        {
+            if (sWord == null || sWord.Length == 0)
+            {
+                return false;
+            }
+            else
+            {
+                Regex regex = new Regex("(диплом|дкк|технічна)$", RegexOptions.IgnoreCase);
+                return regex.IsMatch(sWord);
+            }
         }
 
         public List<string> DevideBySpace(string sSource)
@@ -106,23 +123,21 @@ namespace nvpet_plagiarius
 
             String[] sAllWords = sSource.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            List<string> LsReplacements = new List<string> { "а", "у", "і", "й", "в", "з", "на", "до", "та", "за", "\n" };
+            List<string> LsReplacements = new List<string> 
+                { "а", "у", "і", "й", "в", "з", "на", "до", "та", "за", "для"};
 
-            //int index = 0;
             foreach (string s in sAllWords)
             {
                  LsDevided.Add(s);
-                 //Console.WriteLine(s + " " + index);
-                 //index++;
             }
 
             foreach(string ritem in LsReplacements)
             {
                 for(int i = 0; i < LsDevided.Count; i++)
-                //foreach(string sitem in LsDevided)
                 {
-                    if (/*sitem*/LsDevided[i] == ritem)
-                        LsDevided.Remove(LsDevided[i]/*sitem*/);
+                    if (LsDevided[i] == ritem)
+                        LsDevided.Remove(LsDevided[i]);
+                    //LsDevided.RemoveAll(isCommonWord);
                 }
             }
                 
