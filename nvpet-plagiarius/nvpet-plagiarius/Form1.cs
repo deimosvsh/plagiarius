@@ -80,49 +80,38 @@ namespace nvpet_plagiarius
         {
             //rtb - rich text box
             //int iStartTime = DateTime.Now.Millisecond;
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
             
             List<string> slistEnroledText = new List<string>();
-            string testing = sh.StringGet(@"C:\tests\РИРИРИРРИ.docx");
+            //string testing = sh.StringGet(@"C:\tests\РИРИРИРРИ.docx");
 
-            watch.Stop();
-            Console.WriteLine("load at {0}", watch.Elapsed);
-            watch.Reset();
 
             //rtbMainOutput.Text = sh.ReplaceJunk(sh.StringGet(@"C:\lol.docx")).ToLower();
             //rtbMainOutput.Text = sh.ReplaceJunk(sh.StringGet(@"C:\tests\РИРИРИРРИ.docx"));//.ToLower();
-            rtbMainOutput.Text = sh.ReplaceJunk(testing).ToLower();
-
-            watch.Stop();
-            Console.WriteLine("replace at {0}", watch.Elapsed);
-            watch.Reset();
+            //rtbMainOutput.Text = sh.ReplaceJunk(testing).ToLower();
+            rtbMainOutput.Text = sh.ReplaceJunk(sh.StringGetGemBox(@"C:\tests\війна.docx")).ToLower();
 
             LsDevided = sh.DevideBySpace(rtbMainOutput.Text);
 
-            foreach (var i in LsDevided)
+            /*foreach (var i in LsDevided)
             {
                 //rtbWordsOutput.AppendText(stemmer.TransformingWord(i) + "\n");
                 slistEnroledText.Add(stemmer.TransformingWord(i));
-            }
+            }//*/
 
-            watch.Stop();
-            Console.WriteLine("stemmer at {0}", watch.Elapsed);
-            watch.Reset();
+            Parallel.For(0, LsDevided.Count, (i) =>
+            {
+                slistEnroledText.Add(stemmer.TransformingWord(LsDevided[i]));
+            });//*/
+
 
             LsDevided = sh.DevideBySpace(rtbMainOutput.Text);
             //MessageBox.Show("Sort start");
-            watch.Stop();
-            Console.WriteLine("devided at {0}", watch.Elapsed);
-            watch.Reset();
 
+            //slistEnroledText.TrimExcess();
             slistEnroledText.Sort();
 
-            watch.Stop();
-            Console.WriteLine("sorted at {0}", watch.Elapsed);
-            watch.Reset();
 
-            List<stOccurances> loccNumberOfOccurances = sh.CountOccurances(slistEnroledText);
+            //List<stOccurances> loccNumberOfOccurances = sh.CountOccurances(slistEnroledText);
 
             //List<stOccurances> loccNumberOfOccurances2 = new List<stOccurances>();
 
@@ -131,16 +120,24 @@ namespace nvpet_plagiarius
                 if (s.sWord.Length > 3)
                     loccNumberOfOccurances2.Add(s);
             }//*/
-            
-            //foreach (var i in slistEnroledText)
-            foreach (var i in loccNumberOfOccurances)
+            /*string testing = "";
+
+            Parallel.For(0, slistEnroledText.Count, (i) =>
             {
-                rtbWordsOutput.AppendText(i.sWord + " " + i.iNumOfOcc + "\n");
+                rtbWordsOutput.AppendText(slistEnroledText[i]);
+            });//*/
+
+            /*foreach (var i in slistEnroledText)
+            //foreach (var i in loccNumberOfOccurances)
+            {
+                //rtbWordsOutput.AppendText(i.sWord + " " + i.iNumOfOcc + "\n");
+                //rtbWordsOutput.AppendText(i + "\n");
+                testing = $"{testing}{i}\n";
                 //MessageBox.Show("Sort finish");
-            }
-            watch.Stop();
-            Console.WriteLine("stemmer at {0}", watch.Elapsed);
-            watch.Reset();//*/
+            }//*/
+
+            //rtbWordsOutput.AppendText(testing);
+            MessageBox.Show("holly cow");
         }
     }
 }

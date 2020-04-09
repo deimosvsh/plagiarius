@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Office.Interop.Word;
 using System.Diagnostics;
 using System.Linq;
+using GemBox.Document;
 
 namespace nvpet_plagiarius
 {
@@ -69,22 +70,29 @@ namespace nvpet_plagiarius
                 text.Append(docs.Paragraphs[i + 1].Range.Text.ToString());
             });
             //for (int i = 0; i < docs.Paragraphs.Count; i++)
-            curstop.Stop();
-            Console.WriteLine("loaded {0}", curstop.Elapsed);
-            Console.WriteLine("/n");
 
             // Повернення результуючої строки
             return text.ToString();
         }
 
+        public string StringGetGemBox(string sSource)
+        {
+            //ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+            ComponentInfo.SetLicense("DH5L-ED6Q-R7O0-DY0H");
+            var document = DocumentModel.Load(sSource);
+            
+            //StringBuilder text = new StringBuilder();
+
+
+
+            return document.Content.ToString();
+        }
         public string ReplaceJunk(string sSource)
         {
             /* Словник замінюваних символів;
              * TODO: чи всі символи представлені?
              *       по можливості оптимізувати
              */
-            Stopwatch curstop = new Stopwatch();
-            Console.WriteLine("/n");
 
             Dictionary<string, string> dReplacements = new Dictionary<string, string>
                 {
@@ -113,9 +121,6 @@ namespace nvpet_plagiarius
                 //sSource = sSource.Replace("  ", " ");
             }//*/
 
-            curstop.Stop();
-            Console.WriteLine("replaced {0}", curstop.Elapsed);
-            Console.WriteLine("/n");
             // Формування фінального рядку
             return sSource.ToString();
         }
