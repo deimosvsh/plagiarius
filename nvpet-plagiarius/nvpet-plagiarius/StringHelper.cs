@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Microsoft.Office.Interop.Word;
+using System.Diagnostics;
+using System.Linq;
 
 namespace nvpet_plagiarius
 {
@@ -27,6 +31,8 @@ namespace nvpet_plagiarius
         /* Функція отримання вмісту тексту у вигляді одного рядку*/
         public string StringGet(string sSource)
         {
+            Stopwatch curstop = new Stopwatch();
+            Console.WriteLine("/n");
             // Результативна строка, яку повинна повернути функція
             StringBuilder text = new StringBuilder();
             // Створення віртуального екемпляру програми MS Word
@@ -58,10 +64,14 @@ namespace nvpet_plagiarius
             }
 
             // Копіювання документу в строку
-            for (int i = 0; i < docs.Paragraphs.Count; i++)
+            Parallel.For(0, docs.Paragraphs.Count, (i) =>
             {
                 text.Append(docs.Paragraphs[i + 1].Range.Text.ToString());
-            }
+            });
+            //for (int i = 0; i < docs.Paragraphs.Count; i++)
+            curstop.Stop();
+            Console.WriteLine("loaded {0}", curstop.Elapsed);
+            Console.WriteLine("/n");
 
             // Повернення результуючої строки
             return text.ToString();
@@ -73,6 +83,9 @@ namespace nvpet_plagiarius
              * TODO: чи всі символи представлені?
              *       по можливості оптимізувати
              */
+            Stopwatch curstop = new Stopwatch();
+            Console.WriteLine("/n");
+
             Dictionary<string, string> dReplacements = new Dictionary<string, string>
                 {
                     { "0", "" }, { "1", "" }, { "2", "" }, { "3", "" }, { "4", "" },
@@ -82,7 +95,8 @@ namespace nvpet_plagiarius
                     { "<", "" }, { ">", "" }, { "!", "" }, { "?", "" }, { "@", "" },
                     { "#", "" }, { "$", "" }, { "%", "" }, { "^", "" }, { "&", "" },
                     { "*", "" }, { "+", "" }, { "|", "" }, { "_", "" }, { "»", "" },
-                    { "«", "" }, { "\\", ""}, { "\"", ""}, { "-", " "}, { "–", " "},
+                    { "−", "" }, { "{", "" }, { "}", "" }, { "=", "" }, { "==", ""},
+                    { "«", "" }, { "\\", ""}, { "\"", ""}, { "-", ""}, { "–", ""},
                     {"  ", " "}, {"\n", " "}, {"\t", " "}, {"\r", " "}, {"\f", " "},
 
                     { "новоград", "" },    { "волинський", "" }, {"промислово", ""},
@@ -99,6 +113,9 @@ namespace nvpet_plagiarius
                 //sSource = sSource.Replace("  ", " ");
             }//*/
 
+            curstop.Stop();
+            Console.WriteLine("replaced {0}", curstop.Elapsed);
+            Console.WriteLine("/n");
             // Формування фінального рядку
             return sSource.ToString();
         }
@@ -124,11 +141,15 @@ namespace nvpet_plagiarius
             String[] sAllWords = sSource.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
             List<string> LsReplacements = new List<string> 
-                { "а", "у", "і", "й", "в", "з", "на", "до", "та", "за", "для"};
+                { "а", "у", "і", "й", "в", "з", "ї",
+                  "на", "до", "та", "за",  "як", "як", "то", "ці", "чи", "що", "це", "їх", "їм", "по","кп", "дп", "мб", "нв", "не",
+                  "для", "так", "щоб", "якщ", "між", "яка",
+                  "якщо"};
 
             foreach (string s in sAllWords)
             {
-                 LsDevided.Add(s);
+                if (s.Length > 3)
+                    LsDevided.Add(s);
             }
 
             foreach(string ritem in LsReplacements)
@@ -137,12 +158,25 @@ namespace nvpet_plagiarius
                 {
                     if (LsDevided[i] == ritem)
                         LsDevided.Remove(LsDevided[i]);
-                    //LsDevided.RemoveAll(isCommonWord);
                 }
             }
                 
             // повернення масиву слів
             return LsDevided;
         }
+
+        public List<stOccurances> CountOccurances(List<string> slistSource)
+        {
+            slistSource.TrimExcess();
+            List<stOccurances> tmpOcc = new List<stOccurances>();
+            var unique_items = new HashSet<string>(slistSource);
+           
+            foreach (string y in unique_items)
+            {
+                stOccurances newpart = new stOccurances(y, slistSource.Where(s => s.Equals(y)).Count());
+                tmpOcc.Add(newpart);
+            }
+            return tmpOcc;
+        }//*/
     }
 }

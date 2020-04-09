@@ -38,6 +38,7 @@
 
         private System.Windows.Forms.RichTextBox rtbMainOutput;
         private System.Windows.Forms.RichTextBox rtbWordsOutput;
+        private System.Windows.Forms.Button button1;
     }
 }
 
